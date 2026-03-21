@@ -1,0 +1,74 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Result{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="card shadow-lg border-0 text-center">
+
+<div class="card-header bg-success text-white">
+<h3>🎉 Quiz Result</h3>
+</div>
+
+<div class="card-body">
+
+<div class="row justify-content-center mb-4">
+
+<div class="col-md-3">
+<div class="card border-primary shadow-sm">
+<div class="card-body">
+<h6>Score</h6>
+<h2 class="text-primary">{{ score }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card border-dark shadow-sm">
+<div class="card-body">
+<h6>Total</h6>
+<h2>{{ total }}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card border-danger shadow-sm">
+<div class="card-body">
+<h6>Wrong</h6>
+<h2 class="text-danger">{{ wrong }}</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div style="max-width:400px;margin:auto;">
+<canvas id="chart"></canvas>
+</div>
+
+<a href="{% url 'home' %}" class="btn btn-secondary mt-4">
+Go Home
+</a>
+
+</div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('chart'),{
+type:'doughnut',
+data:{
+labels:['Correct','Wrong'],
+datasets:[{
+data:[{{ score }},{{ wrong }}],
+backgroundColor:['#28a745','#dc3545']
+}]
+}
+});
+</script>
+
+{% endblock %}

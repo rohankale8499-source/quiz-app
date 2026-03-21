@@ -1,0 +1,79 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+
+<style>
+.quiz-wrapper{
+background:linear-gradient(135deg,#fdfbfb,#ebedee);
+padding:25px;
+border-radius:20px;
+box-shadow:0 25px 40px rgba(0,0,0,0.15);
+}
+
+.question-box{
+background:linear-gradient(120deg,#ffffff,#f8fbff);
+border-radius:14px;
+transition:.3s;
+}
+
+.question-box:hover{
+transform:scale(1.01);
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+</style>
+
+<div class="quiz-wrapper">
+
+<h3 class="text-center mb-3">{{ category.name }} Quiz</h3>
+
+<div class="text-end mb-3">
+⏳ Time Left: <span id="time" class="fw-bold text-danger">05:00</span>
+</div>
+
+<form method="post" id="quiz-form">
+{% csrf_token %}
+
+{% for question in questions %}
+<div class="mb-4 p-3 border question-box">
+
+<p class="fw-bold">
+{{ forloop.counter }}. {{ question.text }}
+</p>
+
+{% for choice in question.choice_set.all %}
+<div class="form-check">
+<input class="form-check-input" type="radio"
+name="{{ question.id }}"
+value="{{ choice.text }}" required>
+<label class="form-check-label">{{ choice.text }}</label>
+</div>
+{% endfor %}
+
+</div>
+{% endfor %}
+
+<div class="text-center">
+<button class="btn btn-success px-5">Submit Quiz</button>
+</div>
+
+</form>
+
+</div>
+
+<script>
+let t=300;
+setInterval(()=>{
+let m=Math.floor(t/60);
+let s=t%60;
+document.getElementById("time").textContent=
+(m<10?'0':'')+m+":"+(s<10?'0':'')+s;
+t--;
+if(t<0){
+alert("Time Up!");
+document.getElementById("quiz-form").submit();
+}
+},1000);
+</script>
+
+{% endblock %}

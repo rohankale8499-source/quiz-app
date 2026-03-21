@@ -1,0 +1,65 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4 fw-bold">🏆 Leaderboard</h2>
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-body">
+
+            <table class="table table-hover text-center align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Highest Score</th>
+                        <th>Total Attempts</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for l in leaders %}
+                <tr
+                {% if forloop.counter == 1 %}
+                class="table-warning fw-bold"
+                {% endif %}
+                >
+
+                    <td>
+
+                        {% if forloop.counter == 1 %}
+                        🥇
+                        {% elif forloop.counter == 2 %}
+                        🥈
+                        {% elif forloop.counter == 3 %}
+                        🥉
+                        {% else %}
+                        {{ forloop.counter }}
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ l.user__username }}</td>
+                    <td>{{ l.max_score }}</td>
+                    <td>{{ l.attempts }}</td>
+
+                </tr>
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

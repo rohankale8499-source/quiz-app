@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Quiz App{% endblock %}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:
+radial-gradient(circle at 20% 20%, #e3f2fd 0%, transparent 25%),
+radial-gradient(circle at 80% 30%, #ede7f6 0%, transparent 25%),
+radial-gradient(circle at 50% 80%, #e8f5e9 0%, transparent 25%),
+linear-gradient(120deg,#f8fbff,#eef3f9);
+}
+
+/* ===== PREMIUM NAVBAR ===== */
+
+.premium-navbar{
+background: rgba(25,25,35,0.75);
+backdrop-filter: blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.1);
+box-shadow:0 8px 25px rgba(0,0,0,0.25);
+}
+
+/* ===== PREMIUM LOGO ===== */
+
+.premium-logo{
+text-decoration:none;
+}
+
+.logo-icon{
+width:38px;
+height:38px;
+border-radius:10px;
+background:linear-gradient(135deg,#00c6ff,#0072ff);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+box-shadow:0 4px 15px rgba(0,114,255,0.5);
+}
+
+.logo-text{
+font-size:22px;
+font-weight:700;
+color:white;
+letter-spacing:.5px;
+}
+
+.logo-text span{
+background:linear-gradient(45deg,#00c6ff,#00ffcc);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* ===== NAV LINKS ===== */
+
+.premium-link{
+color:#ddd !important;
+position:relative;
+margin-right:18px;
+transition:.3s;
+}
+
+.premium-link:hover{
+color:white !important;
+}
+
+.premium-link::after{
+content:'';
+position:absolute;
+width:0%;
+height:2px;
+background:#00c6ff;
+bottom:0;
+left:0;
+transition:.3s;
+}
+
+.premium-link:hover::after{
+width:100%;
+}
+
+/* ===== AVATAR ===== */
+
+.avatar-img{
+width:38px;
+height:38px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #00c6ff;
+box-shadow:0 0 10px #00c6ff;
+margin-right:8px;
+}
+
+.avatar-circle{
+width:38px;
+height:38px;
+border-radius:50%;
+background:linear-gradient(45deg,#6f42c1,#d63384);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:17px;
+margin-right:8px;
+}
+
+.username-text{
+color:#ffc107 !important;
+font-weight:600;
+}
+
+.dropdown-menu{
+border-radius:14px;
+padding:8px;
+}
+
+.dropdown-item:hover{
+padding-left:18px;
+background:#f1f3f5;
+}
+
+footer{
+box-shadow:0 -5px 20px rgba(0,0,0,0.2);
+}
+
+.glass-section{
+background:rgba(255,255,255,0.75);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:30px;
+}
+
+</style>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- ===== PREMIUM NAVBAR ===== -->
+
+<nav class="navbar navbar-expand-lg premium-navbar sticky-top">
+<div class="container">
+
+<a class="navbar-brand premium-logo d-flex align-items-center" href="{% url 'home' %}">
+    
+    <div class="logo-icon">🧠</div>
+
+    <div class="logo-text ms-2">
+        Quiz<span>Master</span>
+    </div>
+
+</a>
+
+<button class="navbar-toggler bg-light" type="button"
+data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+
+<ul class="navbar-nav ms-auto align-items-center">
+
+{% if user.is_authenticated %}
+
+<li class="nav-item">
+<a class="nav-link premium-link" href="{% url 'home' %}">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link premium-link" href="{% url 'leaderboard' %}">🏆 Leaderboard</a>
+</li>
+
+<li class="nav-item dropdown d-flex align-items-center">
+
+{% with user.socialaccount_set.all.0 as social %}
+{% if social %}
+<img src="{{ social.get_avatar_url }}" class="avatar-img">
+{% else %}
+<div class="avatar-circle">
+{{ user.username|first|upper }}
+</div>
+{% endif %}
+{% endwith %}
+
+<a class="nav-link dropdown-toggle username-text"
+href="#"
+data-bs-toggle="dropdown">
+
+{{ user.username }}
+
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end shadow">
+
+<li>
+<a class="dropdown-item" href="{% url 'result_history' %}">
+📊 My Results
+</a>
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+<a class="dropdown-item text-danger fw-semibold"
+href="{% url 'logout' %}">
+🚪 Logout
+</a>
+</li>
+
+</ul>
+
+</li>
+
+{% else %}
+
+<li class="nav-item">
+<a class="nav-link premium-link" href="{% url 'login' %}">Login</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link premium-link" href="{% url 'register' %}">Register</a>
+</li>
+
+{% endif %}
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+<div class="container mt-4">
+{% block content %}{% endblock %}
+</div>
+
+<footer class="bg-dark text-white text-center py-4 mt-auto">
+
+<h6 class="fw-semibold mb-2">
+Project Name: Web-Based Quiz Application using Django
+</h6>
+
+<p class="small mb-1">
+Developed by Rohan .V. Kale (245138) & Yuvraj .D. Mulik (245111)
+</p>
+
+<p class="small mb-1">
+Department of Computer & IoT
+</p>
+
+<p class="small mb-1">
+Cusrow Wadia Institute of Technology, Pune – 411001
+</p>
+
+<p class="small text-secondary mb-0">
+Academic Year: 2025-26
+</p>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

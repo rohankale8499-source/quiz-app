@@ -1,0 +1,91 @@
+{% extends 'quiz/base.html' %}
+{% block title %}My Results{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 class="text-center fw-bold mb-4">📊 My Quiz Dashboard</h2>
+
+<!-- SUMMARY CARDS -->
+<div class="row text-center mb-4">
+
+<div class="col-md-4">
+<div class="card shadow border-0">
+<div class="card-body">
+<h6>Total Attempts</h6>
+<h3 class="text-primary">{{ stats.total_attempts }}</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow border-0">
+<div class="card-body">
+<h6>Highest Score</h6>
+<h3 class="text-success">{{ stats.highest_score }}</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow border-0">
+<div class="card-body">
+<h6>Average Score</h6>
+<h3 class="text-warning">
+{{ stats.avg_score|floatformat:1 }}
+</h3>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- RESULTS TABLE -->
+<div class="card shadow-lg border-0">
+<div class="card-body table-responsive" style="max-height:450px;">
+
+<table class="table table-hover text-center align-middle">
+
+<thead class="table-dark">
+<tr>
+<th>#</th>
+<th>Category</th>
+<th>Score</th>
+<th>Total</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for r in results %}
+<tr>
+<td>{{ forloop.counter }}</td>
+<td>
+<span class="badge bg-info">
+{{ r.category.name }}
+</span>
+</td>
+<td class="fw-bold text-success">{{ r.score }}</td>
+<td>{{ r.total }}</td>
+<td>{{ r.created_at|date:"d M Y H:i" }}</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="5" class="text-center text-muted">
+No quiz attempts yet
+</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+</div>
+
+</div>
+
+{% endblock %}
