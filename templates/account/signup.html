@@ -1,4 +1,4 @@
-{% extends 'quiz/base.html' %}
+{% extends "quiz/base.html" %}
 {% load socialaccount %}
 
 {% block title %}Register{% endblock %}
@@ -44,23 +44,26 @@ transform:scale(1.02);
 
 <h3 class="text-center mb-4 fw-bold">🚀 Create Account</h3>
 
-<form method="post">
+<form method="post" action="{% url 'account_signup' %}">
 {% csrf_token %}
 
 {{ form.non_field_errors }}
 
+<!-- ⭐ VERY IMPORTANT hidden redirect field -->
+{{ redirect_field }}
+
 <div class="mb-3">
-<label>Username</label>
+<label class="form-label">Username</label>
 {{ form.username }}
 </div>
 
 <div class="mb-3">
-<label>Password</label>
+<label class="form-label">Password</label>
 {{ form.password1 }}
 </div>
 
 <div class="mb-3">
-<label>Confirm Password</label>
+<label class="form-label">Confirm Password</label>
 {{ form.password2 }}
 </div>
 
@@ -74,9 +77,12 @@ Register
 
 <div class="text-center mb-3">OR</div>
 
-<a href="{% provider_login_url 'google' %}" class="google-btn d-block text-center">
+<a href="{% provider_login_url 'google' %}" 
+class="google-btn d-block text-center">
+
 <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
 width="20" class="me-2">
+
 Register with Google
 </a>
 
