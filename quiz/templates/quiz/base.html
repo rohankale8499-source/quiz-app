@@ -206,11 +206,14 @@ data-bs-toggle="dropdown">
 
 <li><hr class="dropdown-divider"></li>
 
+<!-- ⭐⭐⭐ FIXED LOGOUT (POST METHOD) -->
 <li>
-<a class="dropdown-item text-danger fw-semibold"
-href="{% url 'logout' %}">
+<form action="/accounts/logout/" method="post">
+{% csrf_token %}
+<button class="dropdown-item text-danger fw-semibold">
 🚪 Logout
-</a>
+</button>
+</form>
 </li>
 
 </ul>

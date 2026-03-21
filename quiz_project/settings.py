@@ -54,11 +54,11 @@ ROOT_URLCONF = 'quiz_project.urls'
 WSGI_APPLICATION = 'quiz_project.wsgi.application'
 
 
-# ⭐⭐⭐ VERY IMPORTANT (Enable custom templates folder → Fix CSS issue)
+# ⭐ TEMPLATE FIX (Important for CSS + Allauth)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],   # ⭐⭐⭐ FIXED
+        'DIRS': [BASE_DIR / 'templates'],   # keep this
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,7 +71,7 @@ TEMPLATES = [
 ]
 
 
-# ⭐⭐⭐ PERMANENT POSTGRES DATABASE
+# ⭐ POSTGRES DATABASE (Render Internal URL)
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
@@ -101,7 +101,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# ⭐⭐⭐ AUTH URLS FIXED (Logout Error Fix)
+# ⭐ AUTH URL SETTINGS (VERY IMPORTANT)
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
@@ -113,12 +113,14 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-# ⭐⭐⭐ MODERN ALLAUTH SETTINGS (Warnings Fixed)
+# ⭐ MODERN ALLAUTH SETTINGS (No warnings)
 ACCOUNT_LOGIN_METHODS = {'username'}
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'password1*', 'password2*']
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_ON_GET = True     # ⭐ THIS FIXES 500 ERROR
+
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
