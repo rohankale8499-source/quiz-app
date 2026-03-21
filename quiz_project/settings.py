@@ -4,6 +4,7 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 SECRET_KEY = 'django-insecure-ns9hes03p%34w*%vnoh%#l=^h+h6$_n0sa_ox5m&lpwb=du!71'
 
 DEBUG = False
@@ -50,14 +51,14 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = 'quiz_project.urls'
-
 WSGI_APPLICATION = 'quiz_project.wsgi.application'
 
 
+# ⭐⭐⭐ VERY IMPORTANT (Enable custom templates folder → Fix CSS issue)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],   # ⭐⭐⭐ FIXED
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,11 +71,12 @@ TEMPLATES = [
 ]
 
 
-# ⭐⭐⭐ PERMANENT POSTGRES DATABASE (Render Internal URL)
+# ⭐⭐⭐ PERMANENT POSTGRES DATABASE
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
-        conn_max_age=600
+        conn_max_age=600,
+        ssl_require=False
     )
 }
 
@@ -99,9 +101,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-LOGIN_URL = '/login/'
+# ⭐⭐⭐ AUTH URLS FIXED (Logout Error Fix)
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 AUTHENTICATION_BACKENDS = (
@@ -110,10 +113,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+# ⭐⭐⭐ MODERN ALLAUTH SETTINGS (Warnings Fixed)
+ACCOUNT_LOGIN_METHODS = {'username'}
+ACCOUNT_SIGNUP_FIELDS = ['username*', 'password1*', 'password2*']
 
+ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 SOCIALACCOUNT_LOGIN_ON_GET = True
