@@ -1,0 +1,111 @@
+{% extends 'quiz/base.html' %}
+{% load socialaccount %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<style>
+.register-bg{
+min-height:90vh;
+background:linear-gradient(135deg,#e3f2fd,#e8f5e9,#fff3e0);
+display:flex;
+align-items:center;
+}
+
+.register-card{
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+.google-btn{
+background:white;
+border:1px solid #ddd;
+padding:12px;
+border-radius:10px;
+font-weight:600;
+transition:.3s;
+}
+
+.google-btn:hover{
+background:#f8f9fa;
+transform:scale(1.02);
+}
+
+</style>
+
+<div class="register-bg">
+
+<div class="container">
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card register-card border-0">
+
+<div class="card-body p-5">
+
+<h3 class="text-center mb-4 fw-bold">🚀 Create Account</h3>
+
+<form method="post">
+{% csrf_token %}
+
+<div class="mb-3">
+<label>Username</label>
+<input type="text" name="username" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Email</label>
+<input type="email" name="email" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Password</label>
+<input type="password" name="password1" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Confirm Password</label>
+<input type="password" name="password2" class="form-control">
+</div>
+
+<div class="d-grid mb-3">
+<button class="btn btn-success btn-lg">
+Register
+</button>
+</div>
+
+</form>
+
+<div class="text-center mb-3">OR</div>
+
+<a href="{% provider_login_url 'google' %}"
+class="google-btn d-block text-center">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+width="20" class="me-2">
+
+Register with Google
+
+</a>
+
+<p class="text-center mt-3">
+Already have account ?
+<a href="{% url 'login' %}">Login</a>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
